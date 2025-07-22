@@ -1,0 +1,20 @@
+{
+    "name": "luiz/gerenciador-de-contatos",
+    "description": "Aplicativo web de gerenciamento de contatos, capaz de criptografar informações sensíveis.",
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "App\\": "App/"
+        },
+        "files": [
+            "./Core/functions.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "luizfspintoo",
+            "email": "luizfspintoo@gmail.com"
+        }
+    ],
+    "require": {}
+}
