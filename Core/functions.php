@@ -33,10 +33,10 @@ function dd(...$params)
     exit;
 }
 
-// function flash()
-// {
-//     return new Flash;
-// }
+function flash()
+{
+    return new Flash;
+}
 
 // function session()
 // {
@@ -81,6 +81,10 @@ function redirect($uri)
 function request()
 {
     return new Request;
+}
+
+function messageError($field) {
+    require "views/components/message-error.php";
 }
 
 // function env($key)

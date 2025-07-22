@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-// session_start();
+session_start();
 require base_path('config/routes.php');
 
 ?>

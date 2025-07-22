@@ -11,8 +11,8 @@ class Request {
         return isset($_POST[$key]) ?  $_POST[$key] : $value;
     }
 
-    public function all($key, $value = null) {
-        return isset($_REQUEST[$key]) ?  $_REQUEST[$key] : $value;
+     public function all() {
+        return $_REQUEST;
     }
 }
 
