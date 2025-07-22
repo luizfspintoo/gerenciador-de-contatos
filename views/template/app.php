@@ -19,7 +19,30 @@
         html, body {
             overflow-y: hidden;
         }
-    </style>
+        
+
+        /* Para navegadores baseados em WebKit (Chrome, Safari, Edge) */
+.scroll-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(102, 102, 102, 0);
+  border-radius: 4px;
+}
+
+/* Para Firefox */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109, 124, 21, 0.53) transparent;
+}
+
+</style>
+
 </head>
 
 <body class="bg-zinc-900 h-screen">
