@@ -38,10 +38,10 @@ function flash()
     return new Flash;
 }
 
-// function session()
-// {
-//     return new Session;
-// }
+function session()
+{
+    return new Session;
+}
 
 function config($chave = null)
 {
@@ -83,37 +83,49 @@ function request()
     return new Request;
 }
 
-function messageError($field) {
-    require "views/components/message-error.php";
+function uploadImage($image) {
+
+    if(isset($image) && $image["tmp_name"] != '') {
+        $dir = "images/";
+        $image = $dir . basename($_FILES["image"]["name"]);
+        $extensao = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+        $nome_nome = md5(uniqid(rand(), true)) . "." . $extensao;
+        $image = $dir . $nome_nome;
+        move_uploaded_file($_FILES["image"]["tmp_name"], $image);
+
+        return $image;
+    }
+
+    return "assets/images/avatar.svg";
 }
 
-// function env($key)
-// {
-//     $env = parse_ini_file(base_path('.env'));
+function env($key)
+{
+    $env = parse_ini_file(base_path('.env'));
 
-//     return $env[$key];
-// }
+    return $env[$key];
+}
 
-// define('ALGORITMO', 'aes-256-cbc');
-// define('CHAVE_SECRETA', hash('sha256', env('KEYENCRIPT')));
+define('ALGORITMO', 'aes-256-cbc');
+define('CHAVE_SECRETA', hash('sha256', env('KEYENCRIPT')));
 
-// function encrypt($texto)
-// {
-//     $ivLength = openssl_cipher_iv_length(ALGORITMO); // Normalmente 16 bytes
-//     $iv = openssl_random_pseudo_bytes($ivLength);
+function encrypt($texto)
+{
+    $ivLength = openssl_cipher_iv_length(ALGORITMO); // Normalmente 16 bytes
+    $iv = openssl_random_pseudo_bytes($ivLength);
 
-//     $criptografado = openssl_encrypt($texto, ALGORITMO, CHAVE_SECRETA, 0, $iv);
+    $criptografado = openssl_encrypt($texto, ALGORITMO, CHAVE_SECRETA, 0, $iv);
 
-//     return base64_encode($iv.$criptografado);
-// }
+    return base64_encode($iv.$criptografado);
+}
 
-// function decrypt($entrada)
-// {
-//     $dados = base64_decode($entrada);
-//     $ivLength = openssl_cipher_iv_length(ALGORITMO);
+function decrypt($entrada)
+{
+    $dados = base64_decode($entrada);
+    $ivLength = openssl_cipher_iv_length(ALGORITMO);
 
-//     $iv = substr($dados, 0, $ivLength);
-//     $criptografado = substr($dados, $ivLength);
+    $iv = substr($dados, 0, $ivLength);
+    $criptografado = substr($dados, $ivLength);
 
-//     return openssl_decrypt($criptografado, ALGORITMO, CHAVE_SECRETA, 0, $iv);
-// }
+    return openssl_decrypt($criptografado, ALGORITMO, CHAVE_SECRETA, 0, $iv);
+}

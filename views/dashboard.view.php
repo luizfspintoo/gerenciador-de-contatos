@@ -1,12 +1,12 @@
 <section class="h-full grid grid-cols-[200px_1fr] text-white">
     <aside class="w-42 flex flex-col justify-between items-center py-12">
         <div>
-            <img class="w-10" src="assets/images/logo.svg" alt="Logo tipo aplicação">
+            <img class="w-10" src="/assets/images/logo.svg" alt="Logo tipo aplicação">
         </div>
         <div>
             <ul class="menu space-y-3">
                 <li class="bg-zinc-800 rounded-box">
-                    <a>
+                    <a href="/dashboard">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>
@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li class="bg-zinc-800 rounded-box">
-                    <a>
+                    <a href="/logout">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                         </svg>
@@ -43,12 +43,23 @@
         <section class="flex justify-between itemns-cente">
             <h2 class="text-3xl font-bold">Lista de contatos</h2>
             <div class="flex gap-1">
-                <form action="" class="">
-                    <input type="text" class="w-full bg-transparent p-2 border border-zinc-700 rounded-lg" placeholder="Pesquisar">
+                <form action="/dashboard" method="GET">
+                    <input type="text" name="search" id="search" class="w-full bg-transparent p-2 border border-zinc-700 rounded-lg" placeholder="Pesquisar">
                 </form>
-                <button class="cursor-pointer bg-[#303030] p-2 rounded-xl text-white font-semibold">
+                <button onclick="my_modal_3.showModal()" class="cursor-pointer bg-[#303030] p-2 rounded-xl text-white font-semibold">
                     Adicionar contato
                 </button>
+                <!-- Mostra e esconde botão -->
+                <?php if (session()->get("show")) : ?>
+                    <a href="/hide" class="cursor-pointer bg-[#303030] p-2 px-4 rounded-xl text-white font-semibold">
+                        <img class="w-5" src="/assets/images/icon-close.svg" alt="Icone de cadeado fechado">
+                    </a>
+                <?php else: ?>
+                    <button type="button" class="cursor-pointer bg-[#303030] p-2 px-4 rounded-xl text-white font-semibold" onclick="my_modal_4.showModal()">
+                        <img class="w-5" src="/assets/images/icon-open.svg" alt="Icone de cadeado aberto">
+                    </button>
+                <?php endif; ?>
+
             </div>
         </section>
         <section class="h-full mt-8 flex">
@@ -72,27 +83,116 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-zinc-700">
-                            <td class="py-3 px-4 flex items-center gap-4">
-                                <img class="w-12 h-12 rounded-full" src="assets/images/avatar.svg" alt="Avatar">
-                                <div>
-                                    <h4 class="font-semibold">Carmem</h4>
-                                    <p class="text-sm text-zinc-300">Colega</p>
-                                </div>
-                            </td>
-                            <td class="py-3 px-4">(17) 0000-0000</td>
-                            <td class="py-3 px-4">carmen@teste.com</td>
-                            <td class="py-3 px-4 space-x-1">
-                                <button class="cursor-pointer bg-transparent border border-zinc-700 px-3 py-1 rounded text-sm hover:bg-[#C4F120] hover:text-black">
-                                    Editar
-                                </button>
-                                <button class="cursor-pointer bg-transparent border border-zinc-700 px-3 py-1 rounded text-sm hover:bg-[#E61E32] hover:text-white">Deletar</button>
-                            </td>
-                        </tr>
+                        <?php foreach ($contacts as $contact) : ?>
+                            <tr class="border-b border-zinc-700">
+                                <td class="py-3 px-4 flex items-center gap-4">
+                                    <img class="w-12 h-12 rounded-full" src="<?= $contact->image; ?>" alt="Avatar">
+                                    <div>
+                                        <h4 class="font-semibold"><?= $contact->showContent("name") ? $contact->showContent("name") :  $contact->name; ?></h4>
+
+                                        <!-- <p class="text-sm text-zinc-300">Colega</p> -->
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><?= $contact->showContent("phone") ? $contact->showContent("phone") :  $contact->phone; ?></td>
+                                <td class="py-3 px-4"><?= $contact->showContent("email") ? $contact->showContent("email") :  $contact->email; ?></td>
+                                <td class="py-3 px-4 space-x-1">
+                                    <a href="/contact/edit?id=<?= $contact->id; ?>" class="cursor-pointer bg-transparent border border-zinc-700 px-3 py-1 rounded text-sm hover:bg-zinc-600">
+                                        Editar
+                                    </a>
+                                    <button form="formDelete" type="submit" class="cursor-pointer bg-transparent border border-zinc-700 px-3 py-1 rounded text-sm hover:bg-zinc-600">Deletar</button>
+                                    <form id="formDelete" action="/contact/delete" method="POST">
+                                        <input type="hidden" name="__method" value="DELETE">
+                                        <input type="hidden" name="id" value="<?= $contact->id; ?>">
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
-
         </section>
+
+        <!-- You can open the modal using ID.showModal() method -->
+        <dialog id="my_modal_3" class="modal">
+            <div class="modal-box bg-black w-sm">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <h3 class="text-lg font-bold pb-3 border-b border-zinc-800">Adicionar contato</h3>
+
+                <form action="/contact/create" class="space-y-4" method="POST">
+                    <div class="mb-10">
+                        <?php
+                        $validations = flash()->get('validations');
+                        ?>
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-semibold" for="name">Nome</label>
+                        <input class="w-full bg-transparent p-2 border border-zinc-700 rounded-lg" type="text" name="name" id="name" placeholder="Nome do contato" value="<?= old("name"); ?>">
+                        <span class="text-error">
+                            <?= $validations['name'][0] ?? ''; ?>
+                        </span>
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-semibold" for="email">E-mail</label>
+                        <input class="w-full bg-transparent p-2 border border-zinc-700 rounded-lg" type="email" name="email" id="email" placeholder="E-mail do contato" value="<?= old("email"); ?>">
+                        <span class="text-error">
+                            <?= $validations['email'][0] ?? ''; ?>
+                        </span>
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-semibold" for="phone">Telefone</label>
+                        <input class="w-full bg-transparent p-2 border border-zinc-700 rounded-lg" type="phone" name="phone" id="phone" placeholder="Telefone do contato" value="<?= old("phone"); ?>">
+                        <span class="text-error">
+                            <?= $validations['phone'][0] ?? ''; ?>
+                        </span>
+                    </div>
+                    <div class="flex justify-end gap-1">
+                        <button class="cursor-pointer bg-[#C4F120] p-2 rounded-xl text-black font-semibold" type="submit">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+
+        <!-- Formulário principal de senha -->
+        <dialog id="my_modal_4" class="modal">
+            <div class="modal-box bg-black w-sm">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <h3 class="text-lg font-bold pb-3 border-b border-zinc-800">Visualizar informações</h3>
+                <form action="/dashboard" class="space-y-4 mt-4" method="POST">
+                    <?php
+                        $validationsShow = flash()->get('validations_show');
+                    ?>
+                    <div>
+                        <label class="block mb-1 font-semibold" for="password">Senha</label>
+                        <input class="w-full bg-transparent p-2 border border-zinc-700 rounded-lg" type="password" name="password" id="password" placeholder="Informe sua senha">
+                        <span class="text-error">
+                            <?= $validationsShow['password'][0] ?? ''; ?>
+                        </span>
+                    </div>
+                    <div class="flex justify-end gap-1">
+                        <button class="cursor-pointer bg-[#C4F120] p-2 rounded-xl text-black font-semibold" type="submit">Ver informações</button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+
     </main>
 </section>
+
+<script>
+    var validations = <?php echo json_encode($validations); ?>;
+    var validationsShow = <?php echo json_encode($validationsShow); ?>;
+
+    if (validations && Object.keys(validations).length > 0) {
+        const modal = document.getElementById('my_modal_3');
+        modal.showModal();
+    }
+
+    if (validationsShow && Object.keys(validationsShow).length > 0) {
+        const modal4 = document.getElementById('my_modal_4');
+        modal4.showModal();
+    }
+</script>

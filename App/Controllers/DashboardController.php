@@ -2,11 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Models\Contact;
 
 class DashboardController
 {
     public function index()
     {
-        return view("dashboard");
+        $contacts = Contact::all(request()->get("search"));
+        return view("dashboard", [
+            "contacts" => $contacts
+        ]);
     }
 }

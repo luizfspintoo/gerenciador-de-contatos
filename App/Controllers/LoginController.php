@@ -35,4 +35,9 @@ class LoginController {
         $_SESSION["auth"] = $user;
         return redirect("dashboard");
     }
+
+    public function logout() {
+        session_destroy();
+        return redirect("login");
+    }
 }

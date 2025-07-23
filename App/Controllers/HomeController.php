@@ -7,6 +7,6 @@ class HomeController
 {
     public function __invoke()
     {
-        echo "Olá Luiz";
+        return redirect("login");
     }
 }
