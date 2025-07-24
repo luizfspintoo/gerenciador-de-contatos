@@ -73,6 +73,14 @@
             </aside>
 
             <div class="w-full h-100 flex-1 bg-zinc-800 p-6 overflow-y-auto text-white">
+                <?php if ($message = flash()->get("message")) : ?>
+                        <div role="alert" class="alert alert-success mb-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span><?= $message; ?></span>
+                        </div>
+                    <?php endif; ?>
                 <table class="w-full table-auto">
                     <thead class="text-left">
                         <tr>
@@ -83,6 +91,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if (empty($contacts)) : ?>
+                            <tr>
+                                <td colspan="4" class="py-3 px-4 text-center text-1xl text-zinc-400">
+                                    Nenhum contato encontrado
+                                </td>
+                            </tr>
+                        <?php else: ?>
                         <?php foreach ($contacts as $contact) : ?>
                             <tr class="border-b border-zinc-700">
                                 <td class="py-3 px-4 flex items-center gap-4">
@@ -107,6 +122,7 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

@@ -36,7 +36,7 @@
                     </span>
                 </div>
                 <div>
-                    <label class="block mb-1 font-semibold" for="password">Senha</label>
+                    <label class="block mb-1 font-semibold" for="password">Confirme a senha</label>
                     <input class="w-full bg-transparent p-2 border border-zinc-700 rounded-lg" type="password" name="password_confirmed" id="password_confirmed" placeholder="Repita sua senha para confirmar">
                 </div>
 
