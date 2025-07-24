@@ -17,7 +17,7 @@ Aplicativo web para gerenciamento de contatos, permitindo que os usuários cadas
 - Pesquisa de contatos
 - Listagem e visualização detalhada dos contatos
 - Upload de imagens
-- Cripografar informações seniciveis 
+- Cripografar informações sensíveis 
 
 ---
 
